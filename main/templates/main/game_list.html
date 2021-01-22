@@ -1,0 +1,103 @@
+{% extends "main/base.html" %}
+{% load crispy_forms_filters %}
+{% load crispy_forms_tags %}
+{% block content %}
+    <div class="content-section">
+        <form method="POST">
+            {% csrf_token %}
+            <legend class="border-bottom mb-4">Game Info</legend>
+            <p>Click the link to see match history</p>
+            <h3>Match History:</h3>
+            <div class="input-group mb-3">
+                <select class="custom-select" id="matchDropdown" name="matchDropdown" onchange="form.submit()">
+                    {% if match == None %}
+                        <option selected>---</option>
+                    {% else %}
+                        <option selected>{{ match }}</option>
+                    {% endif %}
+                    {% for match in match_list %}
+                        <option value="{{ match }}">{{ match }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </form>
+        <!----------------------------------- Table for team match history ---------------------------------------->
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <div style="text-align: center;">
+                    <br>
+                    <h3><strong>Match Data</strong></h3>
+                </div>
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col" data-toggle="tooltip" title="Player Name">Player</th>
+                    <th scope="col" data-toggle="tooltip" title="Position">Pos</th>
+                    <th scope="col" data-toggle="tooltip" title="Goals">G</th>
+                    <th scope="col" data-toggle="tooltip" title="Assists">A</th>
+                    <th scope="col" data-toggle="tooltip" title="Points">P</th>
+                    <th scope="col" data-toggle="tooltip" title="Penalty Minutes">PIM</th>
+                    <th scope="col" data-toggle="tooltip" title="Face-off Wins">FOW</th>
+                    <th scope="col" data-toggle="tooltip" title="Face-off Losses">FOL</th>
+                    <th scope="col" data-toggle="tooltip" title="Face-off Percentage">FOP</th>
+                    <th scope="col" data-toggle="tooltip" title="Power Play Goals">PPG</th>
+                    <th scope="col" data-toggle="tooltip" title="Power Play Points">PPP</th>
+                    <th scope="col" data-toggle="tooltip" title="Shorthanded Goals">SHG</th>
+                    <th scope="col" data-toggle="tooltip" title="Shorthanded Points">SHP</th>
+                    <th scope="col" data-toggle="tooltip" title="Shots on Goal">SOG</th>
+                    <th scope="col" data-toggle="tooltip" title="Shots">S</th>
+                    <th scope="col" data-toggle="tooltip" title="Shooting Percentage">S%</th>
+                    <th scope="col" data-toggle="tooltip" title="Time on Ice">TOI</th>
+
+                </tr>
+                </thead>
+                <tbody>
+                {% for x in player_stats_list %}
+                    <tr>
+                        <th scope="row">{{ forloop.counter }}</th>
+                        <td>{{ x.player.first_name }} {{ x.player.last_name }}</td>
+                        <td>{{ x.position }}</td>
+                        <td>{{ x.goals }}</td>
+                        <td>{{ x.assists }}</td>
+                        <td>{{ x.points }}</td>
+                        <td>{{ x.pim }}</td>
+                        <td>{{ x.fow }}</td>
+                        <td>{{ x.fol }}</td>
+                        <td>{{ x.foPercent|floatformat:2 }}</td>
+                        <td>{{ x.ppg }}</td>
+                        <td>{{ x.ppp }}</td>
+                        <td>{{ x.shg }}</td>
+                        <td>{{ x.shp }}</td>
+                        <td>{{ x.sog }}</td>
+                        <td>{{ x.shots }}</td>
+                        <td>{{ x.shootingPercent|floatformat:2 }}</td>
+                        <td>{{ x.toi }}</td>
+                    </tr>
+                {% endfor %}
+                {% for x in dummy_stats_list %}
+                    <tr>
+                        <th scope="row">{{ forloop.counter }}</th>
+                        <td>{{ x.dummy.firstName }} {{ x.dummy.lastName }}</td>
+                        <td>{{ x.position }}</td>
+                        <td>{{ x.goals }}</td>
+                        <td>{{ x.assists }}</td>
+                        <td>{{ x.points }}</td>
+                        <td>{{ x.pim }}</td>
+                        <td>{{ x.fow }}</td>
+                        <td>{{ x.fol }}</td>
+                        <td>{{ x.foPercent|floatformat:2 }}</td>
+                        <td>{{ x.ppg }}</td>
+                        <td>{{ x.ppp }}</td>
+                        <td>{{ x.shg }}</td>
+                        <td>{{ x.shp }}</td>
+                        <td>{{ x.sog }}</td>
+                        <td>{{ x.shots }}</td>
+                        <td>{{ x.shootingPercent|floatformat:2 }}</td>
+                        <td>{{ x.toi }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock content %}

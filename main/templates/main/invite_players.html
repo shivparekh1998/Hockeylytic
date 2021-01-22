@@ -1,0 +1,45 @@
+{% extends "main/base.html" %}
+{% block content %}
+    <div class="content-section">
+        <form method="GET">
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">Invite Player</legend>
+                <p>Give a player account access to their stats (Only unlinked players will appear)</p>
+                <h3>Team:</h3>
+                <div class="input-group mb-3">
+                    <select class="custom-select" onchange="form.submit();" id="teamDropdown" name="teamDropdown">
+                        {% if team == None %}
+                            <option selected>---</option>
+                        {% else %}
+                            <option selected>{{ team }}</option>
+                        {% endif %}
+                        {% for team in team_list %}
+                            <option value="{{ team.name }}">{{ team.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </fieldset>
+        </form>
+        <form method="POST">
+        {% csrf_token %}
+            <select name="finalTeam" id="finalTeam" hidden>
+                <option selected>{{ team }}</option>
+            </select>
+            <h3>Player:</h3>
+            <div class="input-group mb-3">
+                <select class="custom-select" id="playerSelect" name="playerSelect">
+                    <option selected>---</option>
+                    {% for player in roster %}
+                        <option value="{{ player.dummy.firstName }} {{ player.dummy.lastName }}">{{ player.dummy.firstName }} {{ player.dummy.lastName }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <h3>Player's ID (Can be found in profile)</h3>
+            <input type="text" class="form-control" id="playerID" name="playerID" placeholder="Enter 36 digit ID" autocomplete="off">
+            <div class="form-group" style="margin-top: 10px">
+                <button class="btn btn-outline-info" type="submit">Add Player</button>
+            </div>
+        </form>
+    </div>
+
+{% endblock content %}

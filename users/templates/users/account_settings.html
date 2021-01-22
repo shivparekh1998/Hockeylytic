@@ -1,0 +1,31 @@
+{% extends "main/base.html" %}
+{% block content %}
+    <form method="POST">
+    {% csrf_token %}
+    <!-- Triggers a Modal -->
+        <button class="btn btn-danger" style="color: #0C3C60" id ="myBtn" data-toggle="modal" data-target="#myModal" type="button">Delete Account</button>
+        <!-- Modal -->
+        <div class="modal fade" id="myModal" role="dialog">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <h4 class="modal-title"><b>Delete Account</b></h4>
+                        <h6>Are you sure you want to delete your account?</h6>
+                        <h6 style="color:red">This action cannot be undone.</h6>
+                    </div>
+                    <div class="modal-footer">
+                        {% if not user.is_superuser %}
+                        <button class="btn btn-info" type="button" data-dismiss="modal">Cancel</button>
+                        <button class="btn btn-danger" type="submit">Delete All My Data</button>
+                            {% else %}
+                            <h2>Superusers should delete their account in the admin panel</h2>
+                            <button class="btn btn-info" type="button" data-dismiss="modal">Cancel</button>
+                        {% endif %}
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+{% endblock content %}

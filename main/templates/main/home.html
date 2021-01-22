@@ -1,0 +1,50 @@
+{% extends "main/base.html" %}
+{% load static %}
+{% block content %}
+    <div class="alert alert-info">Please Note: Brand new player accounts will not have access to stats without linking their account to a coach-created player first</div>
+    <img src="{% static 'main/home-image.jpg' %}"  width=100% width=100 alt="" ><br><br>
+
+    <div>
+    <h5 style="text-align: center;margin-left: auto; margin-right: auto;color: #0C3C60" >DEVELOPING INNOVATIVE STRATEGIES WITH VISUAL PERFORMANCE DATA</h5>
+    <h3 style="text-align: center; color: #0C3C60;font-size: 50px;margin-left: auto; margin-right: auto" >Player Statistics</h3>
+    </div><br>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm d-flex">
+                <div class="card card-body flex-fill home-text-box">
+                    <h3 class="in-button">NEWS</h3><br>
+                    <p class="in-button">Keep up with the NHL's twitter feed with just a click of a button</p><br>
+                    <button class="align-self-end button-ext" onclick="window.location='{% url 'news' %}'">More Info</button>
+                </div><br>
+            </div><br>
+            <div class="col-sm d-flex">
+                <div class="card card-body flex-fill home-text-box">
+                    <h3 class="in-button">ABOUT</h3><br>
+                    <p class="in-button">Learn more about the site's developers</p><br>
+                    <button class="align-self-end button-ext" onclick="window.location='{% url 'about' %}'">More Info</button>
+
+                </div><br>
+            </div><br>
+            <div class="col-sm d-flex">
+                <div class="card card-body flex-fill home-text-box">
+                    <h3 class="in-button">CLIENTS</h3><br>
+                    <p class="in-button">You can check out our potential investors here</p><br>
+                    <button class="align-self-end button-ext" onclick="window.location='{% url 'clients' %}'">More Info</button>
+                </div><br>
+            </div><br>
+            </div>
+    </div><br><br>
+    <div>
+    <h2 style="text-align: center;color: #0C3C60"><b>About Hockeylytics</b></h2>
+    <h3 style="color: #0C3C60">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspWe look to provide an in-depth website for our users that is a step above other data visualization
+        websites on the market. Through our website, coaches and players will have:
+        <ul>
+            <li>A secure login feature</li>
+            <li>The ability for coaches to enter in team, player, match, and player performance data</li>
+            <li>A detailed dashboard with custom filtering options to see both graphs and tables of their data</li>
+            <li>The ability for coaches to grant their players access to their data</li>
+        </ul> <strong>Have questions? Please refer to our FAQ</strong>
+</h3>
+    </div>
+{% endblock content %}

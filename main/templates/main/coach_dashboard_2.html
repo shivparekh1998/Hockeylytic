@@ -1,0 +1,251 @@
+{% extends "main/base.html" %}
+{% load static %}
+{% block content %}
+    <!-- Prevents users from entering in a space (used for first name last name fields in player creation) -->
+    <script type="text/javascript">
+        function blockSpecialChar(e) {
+            var k = e.keyCode;
+            return ((k > 64 && k < 91) || (k > 96 && k < 123) || k == 8   || (k >= 48 && k <= 57));
+        }
+    </script>
+    <!-------------------------------------------------- CONTAINER 2 ------------------------------------------------------>
+    <div class="container">
+        <h1 data-toggle="tooltip" title="View stats related to an individual player's performance">Player Breakdown</h1>
+        <div class="row">
+            <div class="col-md-4">
+                <h3>Choose a team:</h3>
+                <form method="GET">
+                    <div class="input-group mb-3">
+                        <select class="custom-select" id="teamDropdown" name="teamDropdown" onchange="form.submit()">
+                            {% if team == None %}
+                                <option selected>---</option>
+                            {% else %}
+                                <option selected>{{ team }}</option>
+                            {% endif %}
+                            {% for team in team_list %}
+                                <option value="{{ team.name }}">{{ team.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </form>
+                <form method="POST">
+                    {% csrf_token %}
+                    <select name="player-breakdown-team" id="player-breakdown-team" hidden>
+                        <option selected>{{ team }}</option>
+                    </select>
+                    <h3>Choose player:</h3>
+                    <div class="input-group mb-3">
+                        <select class="custom-select" id="player-breakdown-roster" name="player-breakdown-roster">
+                            <option selected>---</option>
+                            {% for player in roster %}
+                                {% if player.isDummy == True %}
+                                    <option value="{{ player.dummy }}">{{ player.dummy }}</option>
+                                {% else %}
+                                    <option value="{{ player.player.first_name }} {{ player.player.last_name }}">{{ player.player.first_name }} {{ player.player.last_name }}</option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <h3>Choose a stat:</h3>
+                    <div class="input-group mb-3">
+                        <select class="custom-select" id="player-breakdown-stat" name="player-breakdown-stat">
+                            <option selected>---</option>
+                            <option value="Goals">Goals</option>
+                            <option value="Assists">Assists</option>
+                            <option value="Points">Points</option>
+                            <option value="ppg">Power Play Goals</option>
+                            <option value="ppp">Power Play Points</option>
+                            <option value="toi">Time on Ice</option>
+                            <option value="fop">Face-off Percentage</option>
+                            <option value="shoop">Shooting Percentage</option>
+                        </select>
+                    </div>
+                    <button class="btn btn-primary" id="player-breakdown-submit" name="player-breakdown-submit">Submit</button>
+                </form>
+            </div>
+
+            <div class="col-md-8">
+                {% if graph %}
+                    {{ graph | safe }}
+                {% else %}
+                    <p>no graph provided</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <hr>
+    <!-------------------------------------------------- CONTAINER 3 ------------------------------------------------------>
+    <div class="container">
+        <div class="row">
+            <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+            <div>
+                <form method="POST">
+                    {% csrf_token %}
+                    <!-- Triggers a Modal -->
+                    <div class="row">
+                        <button type="button" class="btn btn-success" align="right" id ="myBtn"
+                                data-toggle="modal" data-target="#myModal" style="border-radius: 0 !important;">Add a Team</button>
+                    </div>
+                    <!-- Modal -->
+                    <div class="modal fade" id="myModal" role="dialog">
+                        <div class="modal-dialog">
+                            <!-- Modal content-->
+                            <div class="modal-content">
+                                <div class="modal-body">
+                                    <h4 class="modal-title" style="margin-bottom: 10px"><b>Create a Team</b></h4>
+                                    <h6>Name:</h6>
+                                    <input maxlength="100" style="margin-bottom: 10px" class="form-control" id="nameField" name="nameField" placeholder="">
+                                    <h6>Country:</h6>
+                                    <input maxlength="50" style="margin-bottom: 10px" class="form-control" id="countryField" name="countryField" placeholder="">
+                                    <h6>State:</h6>
+                                    <input maxlength="50" style="margin-bottom: 10px" class="form-control" id="stateField" name="stateField" placeholder="">
+                                    <h6>City:</h6>
+                                    <input maxlength="50" style="margin-bottom: 10px" class="form-control" id="cityField" name="cityField" placeholder="">
+                                </div>
+                                <div class="modal-footer">
+                                    <button class="btn btn-info" type="button" data-dismiss="modal">Cancel</button>
+                                    <button class="btn btn-success" name = "teamSubmit" type="submit" onclick="this.disabled=true,this.form.submit();">Create Team</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+            <div>
+                <form method="POST">
+                    {% csrf_token %}
+                    <!-- Triggers a Modal -->
+                    <div class="row">
+                        <button type="button" class="btn btn-success" id="playerBtn"
+                                data-toggle="modal" data-target="#playerModal" align="right" style="border-radius: 0 !important;">Add a Player</button>
+                    </div>
+                    <!-- Modal -->
+                    <div class="modal fade" id="playerModal" role="dialog">
+                        <div class="modal-dialog">
+                            <!-- Modal content-->
+                            <div class="modal-content">
+                                <div class="modal-body">
+                                    <h4 class="modal-title" style="margin-bottom: 10px"><b>Add a Player</b></h4>
+                                    <h6>Team:</h6>
+                                    <select class="custom-select" id="playerTeam" name="playerTeam" style="margin-bottom: 10px">
+                                        {% if team == None %}
+                                            <option selected>---</option>
+                                        {% else %}
+                                            <option selected>{{ team }}</option>
+                                        {% endif %}
+                                        {% for team in team_list %}
+                                            <option value="{{ team.name }}">{{ team.name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                    <h6>First Name:</h6>
+                                    <input onkeypress="return blockSpecialChar(event)" maxlength="50" style="margin-bottom: 10px" class="form-control" id="playerFirstName" name="playerFirstName" autocomplete="off" placeholder="">
+                                    <h6>Last Name:</h6>
+                                    <input onkeypress="return blockSpecialChar(event)" maxlength="50" style="margin-bottom: 10px" class="form-control" id="playerLastName" name="playerLastName" autocomplete="off" placeholder="">
+                                </div>
+                                <div class="modal-footer">
+                                    <button class="btn btn-info" type="button" data-dismiss="modal">Cancel</button>
+                                    <button class="btn btn-success" name = "playerSubmit" type="submit" onclick="this.disabled=true,this.form.submit();">Add Player</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+            <div>
+                <!-------------------------------------- DELETE A TEAM BUTTON ----------------------------------------->
+                <form method="POST">
+                    {% csrf_token %}
+                    <div class="input-group mb-3">
+                        <!-- Triggers a Modal -->
+                        <div class="row">
+                            <button type="button" class="btn btn-danger" id="deleteBtn"
+                                    data-toggle="modal" data-target="#deleteModal" align="right" style="border-radius: 0 !important;">Delete a Team</button>
+                        </div>
+                        <!-- Modal -->
+                        <div class="modal fade" id="deleteModal" role="dialog">
+                            <div class="modal-dialog">
+                                <!-- Modal content-->
+                                <div class="modal-content">
+                                    <div class="modal-body">
+                                        <h4 class="modal-title" style="margin-bottom: 10px"><b>Delete a Team</b></h4>
+                                        <h6>Team:</h6>
+                                        <select class="custom-select" id="deleteTeam" name="deleteTeam" style="margin-bottom: 10px">
+                                            {% if team == None %}
+                                                <option selected>---</option>
+                                            {% else %}
+                                                <option selected>{{ team }}</option>
+                                            {% endif %}
+                                            {% for team in team_list %}
+                                                <option value="{{ team.name }}">{{ team.name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                        <h6>Are you sure you want to delete this team?</h6>
+                                        <h6 style="color: red">This action cannot be undone.</h6>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button class="btn btn-info" type="button" data-dismiss="modal">Cancel</button>
+                                        <button class="btn btn-danger" name = "deleteTeamSubmit" id="deleteTeamSubmit" onclick="this.disabled=true,this.form.submit();">Delete Team</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <div>
+                <!-------------------------------------- DELETE A PLAYER BUTTON --------------------------------------->
+                <form method="POST">
+                    {% csrf_token %}
+                    <select name="deletePlayerTeam" id="deletePlayerTeam" hidden>
+                        <option selected>{{ team }}</option>
+                    </select>
+                    <div class="input-group mb-3">
+                        <!-- Triggers a Modal -->
+                        <div class="row">
+                            <button type="button" class="btn btn-danger" id="removePlayerBtn"
+                                    data-toggle="modal" data-target="#removePlayerModal" align="right" style="border-radius: 0 !important;">Remove a Player</button>
+                        </div>
+                        <!-- Modal -->
+                        <div class="modal fade" id="removePlayerModal" role="dialog">
+                            <div class="modal-dialog">
+                                <!-- Modal content-->
+                                <div class="modal-content">
+                                    <div class="modal-body">
+                                        <h4 class="modal-title" style="margin-bottom: 10px"><b>Remove a Player</b></h4>
+                                        <h6>Player:</h6>
+                                        <select class="custom-select" id="deleteTeam" name="deletePlayerPlayer" style="margin-bottom: 10px">
+                                            <option selected>---</option>
+                                            {% for player in roster %}
+                                                {% if player.isDummy == True %}
+                                                    <option value="{{ player.dummy }}">{{ player.dummy }}</option>
+                                                {% else %}
+                                                    <option value="{{ player.player }}">{{ player.player.first_name }} {{ player.player.last_name }}</option>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </select>
+                                        <h6>Are you sure you want to remove this player?</h6>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button class="btn btn-info" type="button" data-dismiss="modal">Cancel</button>
+                                        <button class="btn btn-danger" name = "removePlayerSubmit" id="removePlayerSubmit" onclick="this.disabled=true,this.form.submit();">Remove Player</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="ml-auto">
+                <div class="row">
+                    <div class="col align-self-end">
+                        <p class="text-muted align-middle"><b>Team Breakdown</b></p>
+                    </div>
+                    <a href="{% url 'coach-dashboard' %}"><img src="{% static 'main/arrow-left.png' %}" style="width:50px; height:50px;"></a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

@@ -1,0 +1,141 @@
+{% extends "main/base.html" %}
+{% block content %}
+    <div class="content-section">
+        <form method="GET">
+            <div class="col-md-12">
+                <h4>Enter Stats</h4>
+                <hr>
+                <h5>Team:</h5>
+                <select class="custom-select" id="real-team-dropdown" name="real-team-dropdown" onchange="form.submit()" style="margin-bottom: 10px">
+                    {% if selected_team == None %}
+                        <option selected>---</option>
+                    {% else %}
+                        <option selected>{{ selected_team }}</option>
+                    {% endif %}
+                    {% for team in team_list %}
+                        <option value="{{ team.name }}">{{ team.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </form>
+        <form method="POST">
+            {% csrf_token %}
+            <div class="col-md-12">
+                <h5>Match:</h5>
+                <select class="custom-select" id="match-dropdown" name="match-dropdown" style="margin-bottom: 10px">
+                    {% if selected_match == None %}
+                        <option selected>---</option>
+                    {% else %}
+                        <option selected>{{ selected_match }}</option>
+                    {% endif %}
+                    {% for match in match_list %}
+                        <option value="{{ match }}">{{ match }}</option>
+                    {% endfor %}
+                </select>
+                <h5>Player:</h5>
+                <select class="custom-select" id="player-dropdown" name="player-dropdown" style="margin-bottom: 10px">
+                    <option selected>---</option>
+                    {% for player in player_list %}
+                        {% if player.isDummy == True %}
+                            <option value="{{ player.dummy.firstName }} {{ player.dummy.lastName }} (unlinked)">{{ player.dummy.firstName }} {{ player.dummy.lastName }} (unlinked)</option>
+                        {% else %}
+                            <option value="{{ player.player.first_name }} {{ player.player.last_name }}">{{ player.player.first_name }} {{ player.player.last_name }}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+                <h5>Position:</h5>
+                <select class="custom-select" id="position-dropdown" name="position-dropdown" style="margin-bottom: 10px">
+                    <option selected>---</option>
+                    <option value="Forward">Forward</option>
+                    <option value="Defence">Defence</option>
+                    <option value="Center">Center</option>
+                    <option value="Goalie">Goalie</option>
+                </select>
+            </div>
+            <div class="row col-md-12">
+                <div class="col-md-6">
+                    <h4><b>General:</b></h4>
+                    <div class="row">
+
+                        <div style="margin-right: 5px">
+                            <h5>Goals:</h5>
+                            <input max="50" type="number" style="margin-bottom: 10px" class="form-control" id="goals" name="goals" autocomplete="off" value="0">
+                        </div>
+                        <div>
+                            <h5>Points:</h5>
+                            <input max="50" type="number" style="margin-bottom: 10px" class="form-control" id="points" name="points" autocomplete="off" value="0">
+                        </div>
+                        <div>
+                            <h5>Assists:</h5>
+                            <input max="50" type="number" style="margin-bottom: 10px" class="form-control" id="assists" name="assists" autocomplete="off" value="0">
+                        </div>
+                        <div>
+                            <h5>Time on Ice:</h5>
+                            <input max="900" type="number" style="margin-bottom: 10px" class="form-control" id="toi" name="toi" autocomplete="off" value="0">
+                        </div>
+                    </div>
+                    <h4><b>Power Play:</b></h4>
+                    <div class="row">
+                        <div style="margin-right: 5px">
+                            <h5>Goals:</h5>
+                            <input max="50" type="number" style="margin-bottom: 10px" class="form-control" id="pp-goals" name="pp-goals" autocomplete="off" value="0">
+                        </div>
+                        <div>
+                            <h5>Points:</h5>
+                            <input max="50" type="number" style="margin-bottom: 10px" class="form-control" id="pp-points" name="pp-points" autocomplete="off" value="0">
+                        </div>
+                    </div>
+                    <h4><b>Shots:</b></h4>
+                    <div class="row">
+                        <div style="margin-right: 5px">
+                            <h5>Shots on Goal:</h5>
+                            <input max="50" type="number" style="margin-bottom: 10px" class="form-control" id="shots-on-goals" name="shots-on-goals" autocomplete="off" value="0">
+                        </div>
+                        <div>
+                            <h5>Total Shots:</h5>
+                            <input max="50" type="number" style="margin-bottom: 10px" class="form-control" id="total-shots" name="total-shots" autocomplete="off" value="0">
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-md-6">
+                    <h4><b>Faceoff:</b></h4>
+                    <div class="row">
+
+                        <div style="margin-right: 5px">
+                            <h5>Wins:</h5>
+                            <input max="50" type="number" style="margin-bottom: 10px" class="form-control" id="fow" name="fow" autocomplete="off" value="0">
+                        </div>
+                        <div>
+                            <h5>Losses:</h5>
+                            <input max="50" type="number" style="margin-bottom: 10px" class="form-control" id="fol" name="fol" autocomplete="off" value="0">
+                        </div>
+                    </div>
+                    <h4><b>Shorthand:</b></h4>
+                    <div class="row">
+                        <div style="margin-right: 5px">
+                            <h5>Goals:</h5>
+                            <input max="50" type="number" style="margin-bottom: 10px" class="form-control" id="sh-goals" name="sh-goals" autocomplete="off" value="0">
+                        </div>
+                        <div>
+                            <h5>Points:</h5>
+                            <input max="50" type="number" style="margin-bottom: 10px" class="form-control" id="sh-points" name="sh-points" autocomplete="off" value="0">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div>
+                            <h5>Penalty Minutes:</h5>
+                            <input max="50" type="number" style="margin-bottom: 10px" class="form-control" id="pim" name="pim" autocomplete="off" value="0">
+                        </div>
+                        <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+                        <div class="align-self-end">
+                            <button class="btn btn-primary" onclick="this.disabled=true,this.form.submit();">Submit</button>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </form>
+    </div>
+{% endblock content %}

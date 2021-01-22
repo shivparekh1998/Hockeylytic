@@ -1,0 +1,125 @@
+{% extends "main/base.html" %}
+{% block content %}
+    <div class="container">
+    <br />
+
+    <div class="" id="accordion">
+        <div class="faqHeader">Coach</div>
+        <div class="card ">
+            <div class="card-header">
+                <h4 class="card-header">
+                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">How does this site work?</a>
+                </h4>
+            </div>
+            <div id="collapseOne" class="panel-collapse collapse in">
+                <div class="card-block">
+                    This site allows coaches to enter in data related to their hockey team, view visualizations about it, and give players access to their data. You can enter in the following stats:
+                    <ul>
+                        <li>Teams</li>
+                        <li>Players on that team</li>
+                        <li>Matches</li>
+                        <li>Player Stats</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="card ">
+            <div class="card-header">
+                <h4 class="card-header">
+                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTen">Do my players need to create an account for me to enter in data for them?</a>
+                </h4>
+            </div>
+            <div id="collapseTen" class="panel-collapse collapse">
+                <div class="card-block">
+                    <strong>No.</strong> You can enter in stats for your players without them having an account. If they would like to create a player account and see their data, simply use the invite player tab to give them access to their personal dashboard
+                </div>
+            </div>
+        </div>
+
+        <div class="faqHeader">Player</div>
+        <div class="card ">
+            <div class="card-header">
+                <h4 class="card-header">
+                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">I just made a player account, and want to see my stats. What do I do?</a>
+                </h4>
+            </div>
+            <div id="collapseTwo" class="panel-collapse collapse">
+                <div class="card-block">
+                    To see your stats, first copy your unique ID under your username in Account Settings -> Profile. Send this to your coach. He will now be able to link your account to a player he created in the invite player tab.
+                </div>
+            </div>
+        </div>
+        <div class="card ">
+            <div class="card-header">
+                <h4 class="card-header">
+                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseThree">Why can't I compare my team's stats to another?</a>
+                </h4>
+            </div>
+            <div id="collapseThree" class="panel-collapse collapse">
+                <div class="card-block">
+                    You can only compare two teams that you are a member of. Otherwise you would be able to see the stats of every team on the site, which would be bad.
+                </div>
+            </div>
+        </div>
+        <div class="card ">
+            <div class="card-header">
+                <h4 class="card-header">
+                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseFive">Why don't I see any data in season stats / team comparison?</a>
+                </h4>
+            </div>
+            <div id="collapseFive" class="panel-collapse collapse">
+                <div class="card-block">
+                    Please give your unique ID to your coach to gain access to your stats. If you don't see any data, your coach may not have entered in any data for you yet.
+                    <br />
+                </div>
+            </div>
+        </div>
+
+
+        <div class="faqHeader">General</div>
+        <div class="card ">
+            <div class="card-header">
+                <h4 class="card-header">
+                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseFour">Why should I use your site?</a>
+                </h4>
+            </div>
+            <div id="collapseFour" class="panel-collapse collapse">
+                <div class="card-block">
+                    There are a number of reasons why you should use our website:
+                    <ul>
+                        <li>We have a good visualization of player's personal performance stats. And there will be more options in the future updates.</li>
+                        <li>Make your team in a blink of an eye with your collected data.</li>
+                        <li>It's <strong>FREE</strong> and fun to use.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="card ">
+            <div class="card-header">
+                <h4 class="card-header">
+                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseSeven">Is this website free or subscription based?</a>
+                </h4>
+            </div>
+            <div id="collapseSeven" class="panel-collapse collapse">
+                <div class="card-block">
+                    It's free for everyone who is interested in hockey team management and loves to see and compare self performance stats with others.
+                </div>
+            </div>
+        </div>
+        <div class="card ">
+            <div class="card-header">
+                <h4 class="card-header">
+                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseEight">Will this website be maintained?</a>
+                </h4>
+            </div>
+            <div id="collapseEight" class="panel-collapse collapse">
+                <div class="card-block">
+                    We plan to add more robust and detailed graphs in the future, and adding more security layers to our site. It will likely stay on the web until Fall 2021.
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock content %}

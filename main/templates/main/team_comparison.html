@@ -1,0 +1,125 @@
+{% extends "main/base.html" %}
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <form method="POST">
+                    {% csrf_token %}
+                    <h3>Pick Team 1:</h3>
+
+                    <div class="input-group mb-3">
+                        <select class="custom-select" id="team-one" name="team-one" >
+                            {% if match == None %}
+                                <option selected>---</option>
+                            {% else %}
+                                <option selected>{{ team }}</option>
+                            {% endif %}
+                            {% for team in team_list %}
+                                <option value="{{ team.name }}">{{ team.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <h3>Pick team 2:</h3>
+
+                    <div class="input-group mb-3">
+                        <select class="custom-select" id="team-two" name="team-two">
+                            {% if match == None %}
+                                <option selected>---</option>
+                            {% else %}
+                                <option selected>{{ team }}</option>
+                            {% endif %}
+                            {% for team in team_list %}
+                                <option value="{{ team.name }}">{{ team.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div>
+                        <button class="btn btn-primary">Submit</button>
+                    </div>
+                </form>
+                <!------------------------------- TABLE ONE ----------------------------------------------------------->
+                <div class ="statsTable" style = "display: grid; float: left; margin-right: 10%; width: 45%">
+                    <h3>Team 1 Stats:</h3>
+                    <table class="table table-striped">
+                        <tbody>
+                        <tr>
+                            <th scope="col"><strong>STATS</strong></th>
+                            <th scope="col"><strong>TOTAL</strong></th>
+                        </tr>
+                        <tr>
+                            <th scope="row">Wins</th>
+                            {% if team_one == None %}
+                                <td>0</td>
+                            {% else %}
+                                <td>{{ team_one.wins }}</td>
+                            {% endif %}
+
+                        </tr>
+                        <tr>
+                            <th scope="row">Losses</th>
+                            {% if team_one == None %}
+                                <td>0</td>
+                            {% else %}
+                                <td>{{ team_one.losses }}</td>
+                            {% endif %}
+                        </tr>
+                        <tr>
+                            <th scope="row">Goals</th>
+                            <td>{{ goals_1 }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Points</th>
+                            <td>{{ points_1 }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Assists</th>
+                            <td>{{ assists_1 }}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <!----------------- table 2 ------------------------------->
+                <div class ="statsTable" style = "display: grid">
+                    <h3>Team 2 Stats:</h3>
+                    <table class="table table-striped">
+                        <tbody>
+                        <tr>
+                            <th scope="col"><strong>STATS</strong></th>
+                            <th scope="col"><strong>TOTAL</strong></th>
+                        </tr>
+                        <tr>
+                            <th scope="row">Wins</th>
+                            {% if team_two == None %}
+                                <td>0</td>
+                            {% else %}
+                                <td>{{ team_two.wins }}</td>
+                            {% endif %}
+                        </tr>
+                        <tr>
+                            <th scope="row">Losses</th>
+                            {% if team_two == None %}
+                                <td>0</td>
+                            {% else %}
+                                <td>{{ team_two.losses }}</td>
+                            {% endif %}
+                        </tr>
+                        <tr>
+                            <th scope="row">Goals</th>
+                            <td>{{ goals_2 }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Points</th>
+                            <td>{{ points_2 }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Assists</th>
+                            <td>{{ assists_2 }}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
